@@ -1,0 +1,5 @@
+# Notes
+
+## Operations
+
+### Dot Product
