@@ -50,7 +50,7 @@ class Vector:
         sum = 0
         for k, i in enumerate(self.coordinates):
             sum += i * v.coordinates[k]
-        return round(sum, 3)
+        return sum
 
     def angle_between_rads(self, v):
         dp = self.dotproduct(v)
@@ -72,27 +72,30 @@ class Vector:
     def is_orthogonal_to(self, v):
         return self.dotproduct(v) == 0
 
+    # Returns self's projection onto basis vector b
+    def component_parallel_to(self, b):
+        ub = b.get_unit_vector()
+        return ub.scalar_multiply(self.dotproduct(ub))
+
+    # Returns the orthogonal component of self with respect to basis vector b
+    def component_orthogonal_to(self, b):
+        # Get the parallel component of v with respect to b.
+        vp = self.component_parallel_to(b)
+        return self.subtract(vp)
+
 if __name__ == "__main__":
-    v1 = Vector([-7.579, -7.88])
-    v2 = Vector([22.737, 23.64])
+    v1 = Vector([3.039, 1.879])
+    v2 = Vector([0.825, 2.036])
 
-    v3 = Vector([-2.029, 9.97, 4.172])
-    v4 = Vector([-9.231, -6.639, -7.245])
+    v3 = Vector([-9.88, -3.264, -8.159])
+    v4 = Vector([-2.155, -9.353, -9.473])
 
-    v5 = Vector([-2.328, -7.284, -1.214])
-    v6 = Vector([-1.821, 1.072, -2.94])
+    v5 = Vector([3.009, -6.172, 3.692, -2.51])
+    v6 = Vector([6.404, -9.144, 2.759, 8.718])
 
-    v7 = Vector([2.118, 4.827])
-    v8 = Vector([0, 0])
+    print(v1.component_parallel_to(v2))
 
-    print(v1.is_parallel_to(v2))
-    print(v1.is_orthogonal_to(v2))
+    print(v3.component_orthogonal_to(v4))
 
-    print(v3.is_parallel_to(v4))
-    print(v3.is_orthogonal_to(v4))
-
-    print(v5.is_parallel_to(v6))
-    print(v5.is_orthogonal_to(v6))
-
-    print(v7.is_parallel_to(v8))
-    print(v7.is_orthogonal_to(v8))
+    print(v5.component_parallel_to(v6))
+    print(v5.component_orthogonal_to(v6))
