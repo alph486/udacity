@@ -42,7 +42,7 @@ class Vector:
             m = 1 / self.magnitude()
             return self.scalar_multiply(m)
         except ZeroDivisionError:
-            raise Exception('Cannot normalize the zero Vector.')
+            raise ZeroDivisionError('Cannot normalize the zero Vector.')
 
     def dotproduct(self, v):
         if v.dimension != self.dimension:
@@ -50,7 +50,7 @@ class Vector:
         sum = 0
         for k, i in enumerate(self.coordinates):
             sum += i * v.coordinates[k]
-        return sum
+        return round(sum, 3)
 
     def angle_between_rads(self, v):
         dp = self.dotproduct(v)
@@ -61,17 +61,38 @@ class Vector:
     def angle_between_degrees(self, v):
         return math.degrees(self.angle_between_rads(v))
 
+    def is_parallel_to(self, v):
+        try:
+            u1 = [round(abs(x), 3) for x in self.get_unit_vector().coordinates]
+            u2 = [round(abs(x), 3) for x in v.get_unit_vector().coordinates]
+        except ZeroDivisionError:
+            return True
+        return Vector(u1) == Vector(u2)
+
+    def is_orthogonal_to(self, v):
+        return self.dotproduct(v) == 0
 
 if __name__ == "__main__":
-    v1 = Vector([7.887, 4.138])
-    v2 = Vector([-8.802, 6.776])
-    v3 = Vector([-5.955, -4.904, -1.874])
-    v4 = Vector([-4.496, -8.755, 7.103])
-    v5 = Vector([3.183, -7.627])
-    v6 = Vector([-2.668, 5.319])
-    v7 = Vector([7.35, 0.221, 5.188])
-    v8 = Vector([2.751, 8.259, 3.985])
-    print(v1.dotproduct(v2))
-    print(v3.dotproduct(v4))
-    print(v5.angle_between_rads(v6))
-    print(v7.angle_between_degrees(v8))
+    v1 = Vector([-7.579, -7.88])
+    v2 = Vector([22.737, 23.64])
+
+    v3 = Vector([-2.029, 9.97, 4.172])
+    v4 = Vector([-9.231, -6.639, -7.245])
+
+    v5 = Vector([-2.328, -7.284, -1.214])
+    v6 = Vector([-1.821, 1.072, -2.94])
+
+    v7 = Vector([2.118, 4.827])
+    v8 = Vector([0, 0])
+
+    print(v1.is_parallel_to(v2))
+    print(v1.is_orthogonal_to(v2))
+
+    print(v3.is_parallel_to(v4))
+    print(v3.is_orthogonal_to(v4))
+
+    print(v5.is_parallel_to(v6))
+    print(v5.is_orthogonal_to(v6))
+
+    print(v7.is_parallel_to(v8))
+    print(v7.is_orthogonal_to(v8))
