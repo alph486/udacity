@@ -83,19 +83,34 @@ class Vector:
         vp = self.component_parallel_to(b)
         return self.subtract(vp)
 
+    def cross_product(self, w):
+        if self.dimension != 3 or w.dimension != 3:
+            raise ValueError("Vectors must be 3 dimensional.")
+        v_coords = self.coordinates
+        w_coords = w.coordinates
+        x = (v_coords[1]*w_coords[2] - w_coords[1]*v_coords[2])
+        y = -(v_coords[0]*w_coords[2] - w_coords[0]*v_coords[2])
+        z = (v_coords[0]*w_coords[1] - w_coords[0]*v_coords[1])
+        return Vector([x, y, z])
+
+    def area_parallelogram(self, w):
+        c = self.cross_product(w)
+        return c.magnitude()
+
+    def area_triangle(self, w):
+        return self.area_parallelogram(w) / 2
+
+
 if __name__ == "__main__":
-    v1 = Vector([3.039, 1.879])
-    v2 = Vector([0.825, 2.036])
+    v1 = Vector([8.462, 7.893, -8.187])
+    v2 = Vector([6.984, -5.975, 4.778])
 
-    v3 = Vector([-9.88, -3.264, -8.159])
-    v4 = Vector([-2.155, -9.353, -9.473])
+    v3 = Vector([-8.987, -9.838, 5.031])
+    v4 = Vector([-4.268, -1.861, -8.866])
 
-    v5 = Vector([3.009, -6.172, 3.692, -2.51])
-    v6 = Vector([6.404, -9.144, 2.759, 8.718])
+    v5 = Vector([1.5, 9.547, 3.691])
+    v6 = Vector([-6.007, 0.124, 5.772])
 
-    print(v1.component_parallel_to(v2))
-
-    print(v3.component_orthogonal_to(v4))
-
-    print(v5.component_parallel_to(v6))
-    print(v5.component_orthogonal_to(v6))
+    print(v1.cross_product(v2))
+    print(v3.area_parallelogram(v4))
+    print(v5.area_triangle(v6))
