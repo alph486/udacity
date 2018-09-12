@@ -1,6 +1,9 @@
 #Vectors
 
 Vectors represent a displacement from an origin point. They are different from a "point" in n-dimensional space in that they do not represent a /location/ in space, but represent a /displacement/ from one point to another. In this way, vectors have a direction and magnitude, as they say.
+
+http://geomalgorithms.com/points_and_vectors.html
+
 ## Operations
 
 ### Scalar Multiplication
